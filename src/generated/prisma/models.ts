@@ -8,4 +8,7 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from './models/Task'
+export type * from './models/InboxItem'
+export type * from './models/Project'
 export type * from './commonInputTypes'

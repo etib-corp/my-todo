@@ -4,7 +4,11 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Sparkles } from "lucide-react"
 
-export default function Page() {
+import { getOverviewData } from "@/lib/dashboard"
+
+export default async function Page() {
+  const overview = await getOverviewData()
+
   return (
     <div className="flex flex-1 flex-col bg-[radial-gradient(circle_at_top_left,rgba(16,185,129,0.12),transparent_34%),radial-gradient(circle_at_top_right,rgba(15,23,42,0.06),transparent_28%)]">
       <div className="@container/main flex flex-1 flex-col gap-6 px-4 py-4 md:gap-8 md:py-6 lg:px-6">
@@ -35,9 +39,13 @@ export default function Page() {
             </CardHeader>
             <CardContent className="grid gap-5 md:grid-cols-3">
               {[
-                ["Focus time", "4h 32m", "Protected blocks for deep work."],
-                ["Team updates", "12", "Async notes that moved work forward."],
-                ["Open blockers", "2", "Issues still waiting on a decision."],
+                ["Total tasks", `${overview.totalTasks}`, "Stored in Prisma and ready to track."],
+                [
+                  "Completed tasks",
+                  `${overview.completedTasks}`,
+                  "Finished work is persisted, not just visual.",
+                ],
+                ["Inbox items", `${overview.inboxCount}`, "Synced into the database for the drawer."],
               ].map(([label, value, detail]) => (
                 <div key={label} className="rounded-2xl border bg-background/70 p-4 shadow-sm">
                   <p className="text-xs uppercase tracking-wide text-muted-foreground">{label}</p>
@@ -50,27 +58,47 @@ export default function Page() {
 
           <Card className="border-border/60 shadow-sm">
             <CardHeader>
-              <CardTitle className="text-xl">What to do next</CardTitle>
+              <CardTitle className="text-xl">Recent stored work</CardTitle>
               <CardDescription>
-                Jump into the most relevant workspace section.
+                Loaded from Prisma and ready to refresh after new entries are created.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
-              {[
-                ["Open Focus", "/focus"],
-                ["Check Team Sync", "/team"],
-                ["Review Projects", "/projects"],
-                ["Scan Activity", "/activity"],
-              ].map(([label, href]) => (
+              {overview.recentTasks.map(
+                (task: {
+                  id: number
+                  title: string
+                  details: string | null
+                  completed: boolean
+                }) => (
+                  <div
+                    key={task.id}
+                    className="flex items-center justify-between rounded-2xl border bg-muted/20 px-4 py-3"
+                  >
+                    <div>
+                      <p className="text-sm font-medium">{task.title}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {task.details || "No extra details provided."}
+                      </p>
+                    </div>
+                    <Badge
+                      variant={task.completed ? "secondary" : "outline"}
+                      className="rounded-full"
+                    >
+                      {task.completed ? "Done" : "Open"}
+                    </Badge>
+                  </div>
+                )
+              )}
+              <div className="pt-2">
                 <Link
-                  key={label}
-                  href={href}
-                  className="flex items-center justify-between rounded-2xl border bg-muted/20 px-4 py-3 text-sm font-medium transition-colors hover:bg-muted/40"
+                  href="/activity"
+                  className="inline-flex items-center justify-between rounded-2xl border bg-background px-4 py-3 text-sm font-medium transition-colors hover:bg-muted/40"
                 >
-                  <span>{label}</span>
+                  <span>Open activity stream</span>
                   <span aria-hidden>→</span>
                 </Link>
-              ))}
+              </div>
             </CardContent>
           </Card>
         </section>

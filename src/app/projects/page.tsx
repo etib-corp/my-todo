@@ -2,13 +2,11 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { FolderKanban, Milestone, ListChecks } from "lucide-react"
 
-const projects = [
-  { name: "Onboarding refresh", status: "In progress", owner: "Ava", note: "Waiting on copy and final QA." },
-  { name: "Team planning flow", status: "Review", owner: "Maya", note: "Needs a decision on the release window." },
-  { name: "Ops automation", status: "Planned", owner: "Leila", note: "Ready to start after this sprint." },
-]
+import { listProjects } from "@/lib/dashboard"
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
+  const projects = await listProjects()
+
   return (
     <div className="@container/main flex flex-1 flex-col gap-6 px-4 py-4 md:gap-8 md:py-6 lg:px-6">
       <section className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
@@ -20,7 +18,7 @@ export default function ProjectsPage() {
           </CardHeader>
           <CardContent className="space-y-3">
             {projects.map((project) => (
-              <div key={project.name} className="rounded-2xl border bg-muted/20 p-4">
+              <div key={project.id} className="rounded-2xl border bg-muted/20 p-4">
                 <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                   <div>
                     <p className="font-medium">{project.name}</p>

@@ -3,6 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { useRouter } from "next/navigation"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -37,31 +38,21 @@ export function NavMain({
   }[]
 }) {
   const pathname = usePathname()
+  const router = useRouter()
   const [isQuickCreateOpen, setIsQuickCreateOpen] = React.useState(false)
   const [isInboxOpen, setIsInboxOpen] = React.useState(false)
   const [taskTitle, setTaskTitle] = React.useState("")
   const [taskDetails, setTaskDetails] = React.useState("")
-
-  const inboxItems = [
+  const [inboxItems, setInboxItems] = React.useState<
     {
-      title: "Design review requested",
-      description: "Ava needs a quick pass on the onboarding handoff.",
-      time: "2m ago",
-      tone: "emerald",
-    },
-    {
-      title: "Standup starting soon",
-      description: "Team sync is queued for 14:30 with product and ops.",
-      time: "14m ago",
-      tone: "sky",
-    },
-    {
-      title: "Blocker cleared",
-      description: "Maya resolved the planning board sync issue.",
-      time: "41m ago",
-      tone: "amber",
-    },
-  ]
+      id: number
+      title: string
+      description: string
+      category: string
+      createdAt: string
+    }[]
+  >([])
+  const [isInboxLoading, setIsInboxLoading] = React.useState(false)
 
   function closeQuickCreate() {
     setIsQuickCreateOpen(false)
@@ -69,11 +60,77 @@ export function NavMain({
     setTaskDetails("")
   }
 
-  function handleCreateTask(event: React.FormEvent<HTMLFormElement>) {
+  async function handleCreateTask(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    toast.success(taskTitle.trim() ? `Created ${taskTitle.trim()}` : "Created task")
+
+    const title = taskTitle.trim()
+    const details = taskDetails.trim()
+
+    if (!title) {
+      toast.error("Add a title before creating a task")
+      return
+    }
+
+    const response = await fetch("/api/tasks", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ title, details }),
+    })
+
+    if (!response.ok) {
+      toast.error("Could not save the task")
+      return
+    }
+
+    toast.success(`Created ${title}`)
     closeQuickCreate()
+    router.refresh()
   }
+
+  React.useEffect(() => {
+    if (!isInboxOpen) {
+      return
+    }
+
+    let isActive = true
+
+    async function loadInbox() {
+      setIsInboxLoading(true)
+
+      try {
+        const response = await fetch("/api/inbox")
+        const payload = (await response.json()) as {
+          inboxItems?: {
+            id: number
+            title: string
+            description: string
+            category: string
+            createdAt: string
+          }[]
+        }
+
+        if (isActive) {
+          setInboxItems(payload.inboxItems ?? [])
+        }
+      } catch {
+        if (isActive) {
+          setInboxItems([])
+        }
+      } finally {
+        if (isActive) {
+          setIsInboxLoading(false)
+        }
+      }
+    }
+
+    void loadInbox()
+
+    return () => {
+      isActive = false
+    }
+  }, [isInboxOpen])
 
   return (
     <SidebarGroup>
@@ -177,17 +234,27 @@ export function NavMain({
             </DrawerDescription>
           </DrawerHeader>
           <div className="flex flex-1 flex-col gap-3 overflow-y-auto p-4">
-            {inboxItems.map((item) => (
-              <div key={item.title} className="rounded-2xl border bg-background p-4 shadow-sm">
-                <div className="flex items-center justify-between gap-3">
-                  <p className="font-medium">{item.title}</p>
-                  <Badge variant="outline" className="rounded-full">
-                    {item.time}
-                  </Badge>
-                </div>
-                <p className="mt-2 text-sm text-muted-foreground">{item.description}</p>
+            {isInboxLoading ? (
+              <div className="rounded-2xl border bg-background p-4 text-sm text-muted-foreground shadow-sm">
+                Loading inbox...
               </div>
-            ))}
+            ) : inboxItems.length > 0 ? (
+              inboxItems.map((item) => (
+                <div key={item.id} className="rounded-2xl border bg-background p-4 shadow-sm">
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="font-medium">{item.title}</p>
+                    <Badge variant="outline" className="rounded-full">
+                      {item.category}
+                    </Badge>
+                  </div>
+                  <p className="mt-2 text-sm text-muted-foreground">{item.description}</p>
+                </div>
+              ))
+            ) : (
+              <div className="rounded-2xl border bg-background p-4 text-sm text-muted-foreground shadow-sm">
+                Inbox is empty.
+              </div>
+            )}
           </div>
         </DrawerContent>
       </Drawer>

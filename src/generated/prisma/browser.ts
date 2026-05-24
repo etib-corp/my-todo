@@ -17,4 +17,18 @@ import * as Prisma from './internal/prismaNamespaceBrowser'
 export { Prisma }
 export * as $Enums from './enums'
 export * from './enums';
-
+/**
+ * Model Task
+ * 
+ */
+export type Task = Prisma.TaskModel
+/**
+ * Model InboxItem
+ * 
+ */
+export type InboxItem = Prisma.InboxItemModel
+/**
+ * Model Project
+ * 
+ */
+export type Project = Prisma.ProjectModel

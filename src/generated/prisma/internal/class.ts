@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.8.0",
   "engineVersion": "3c6e192761c0362d496ed980de936e2f3cebcd3a",
   "activeProvider": "sqlite",
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Get a free hosted Postgres database in seconds: `npx create-db`\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n}\n",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Get a free hosted Postgres database in seconds: `npx create-db`\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n}\n\nmodel Task {\n  id        Int      @id @default(autoincrement())\n  title     String\n  details   String?\n  completed Boolean  @default(false)\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel InboxItem {\n  id          Int      @id @default(autoincrement())\n  title       String\n  description String\n  category    String\n  createdAt   DateTime @default(now())\n}\n\nmodel Project {\n  id        Int      @id @default(autoincrement())\n  name      String\n  status    String\n  owner     String\n  note      String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -32,10 +32,10 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Task\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"details\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"completed\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"InboxItem\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"category\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Project\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"owner\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"note\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 config.parameterizationSchema = {
-  strings: JSON.parse("[]"),
-  graph: "AAAA"
+  strings: JSON.parse("[\"where\",\"Task.findUnique\",\"Task.findUniqueOrThrow\",\"orderBy\",\"cursor\",\"Task.findFirst\",\"Task.findFirstOrThrow\",\"Task.findMany\",\"data\",\"Task.createOne\",\"Task.createMany\",\"Task.createManyAndReturn\",\"Task.updateOne\",\"Task.updateMany\",\"Task.updateManyAndReturn\",\"create\",\"update\",\"Task.upsertOne\",\"Task.deleteOne\",\"Task.deleteMany\",\"having\",\"_count\",\"_avg\",\"_sum\",\"_min\",\"_max\",\"Task.groupBy\",\"Task.aggregate\",\"InboxItem.findUnique\",\"InboxItem.findUniqueOrThrow\",\"InboxItem.findFirst\",\"InboxItem.findFirstOrThrow\",\"InboxItem.findMany\",\"InboxItem.createOne\",\"InboxItem.createMany\",\"InboxItem.createManyAndReturn\",\"InboxItem.updateOne\",\"InboxItem.updateMany\",\"InboxItem.updateManyAndReturn\",\"InboxItem.upsertOne\",\"InboxItem.deleteOne\",\"InboxItem.deleteMany\",\"InboxItem.groupBy\",\"InboxItem.aggregate\",\"Project.findUnique\",\"Project.findUniqueOrThrow\",\"Project.findFirst\",\"Project.findFirstOrThrow\",\"Project.findMany\",\"Project.createOne\",\"Project.createMany\",\"Project.createManyAndReturn\",\"Project.updateOne\",\"Project.updateMany\",\"Project.updateManyAndReturn\",\"Project.upsertOne\",\"Project.deleteOne\",\"Project.deleteMany\",\"Project.groupBy\",\"Project.aggregate\",\"AND\",\"OR\",\"NOT\",\"id\",\"name\",\"status\",\"owner\",\"note\",\"createdAt\",\"updatedAt\",\"equals\",\"in\",\"notIn\",\"lt\",\"lte\",\"gt\",\"gte\",\"not\",\"contains\",\"startsWith\",\"endsWith\",\"title\",\"description\",\"category\",\"details\",\"completed\",\"set\",\"increment\",\"decrement\",\"multiply\",\"divide\"]"),
+  graph: "fB8wCTwAAGUAMD0AAAQAED4AAGUAMD8CAAAAAURAAFoAIUVAAFoAIVEBAFkAIVQBAGYAIVUgAGcAIQEAAAABACABAAAAAQAgCTwAAGUAMD0AAAQAED4AAGUAMD8CAFgAIURAAFoAIUVAAFoAIVEBAFkAIVQBAGYAIVUgAGcAIQFUAAB1ACADAAAABAAgAwAABQAwBAAAAQAgAwAAAAQAIAMAAAUAMAQAAAEAIAMAAAAEACADAAAFADAEAAABACAGPwIAAAABREAAAAABRUAAAAABUQEAAAABVAEAAAABVSAAAAABAQgAAAkAIAY_AgAAAAFEQAAAAAFFQAAAAAFRAQAAAAFUAQAAAAFVIAAAAAEBCAAACwAwAQgAAAsAMAY_AgBvACFEQABuACFFQABuACFRAQBtACFUAQB7ACFVIAB8ACECAAAAAQAgCAAADgAgBj8CAG8AIURAAG4AIUVAAG4AIVEBAG0AIVQBAHsAIVUgAHwAIQIAAAAEACAIAAAQACACAAAABAAgCAAAEAAgAwAAAAEAIA8AAAkAIBAAAA4AIAEAAAABACABAAAABAAgBhUAAHYAIBYAAHcAIBcAAHoAIBgAAHkAIBkAAHgAIFQAAHUAIAk8AABdADA9AAAXABA-AABdADA_AgBNACFEQABPACFFQABPACFRAQBOACFUAQBeACFVIABfACEDAAAABAAgAwAAFgAwFAAAFwAgAwAAAAQAIAMAAAUAMAQAAAEAIAg8AABcADA9AAAdABA-AABcADA_AgAAAAFEQABaACFRAQBZACFSAQBZACFTAQBZACEBAAAAGgAgAQAAABoAIAg8AABcADA9AAAdABA-AABcADA_AgBYACFEQABaACFRAQBZACFSAQBZACFTAQBZACEAAwAAAB0AIAMAAB4AMAQAABoAIAMAAAAdACADAAAeADAEAAAaACADAAAAHQAgAwAAHgAwBAAAGgAgBT8CAAAAAURAAAAAAVEBAAAAAVIBAAAAAVMBAAAAAQEIAAAiACAFPwIAAAABREAAAAABUQEAAAABUgEAAAABUwEAAAABAQgAACQAMAEIAAAkADAFPwIAbwAhREAAbgAhUQEAbQAhUgEAbQAhUwEAbQAhAgAAABoAIAgAACcAIAU_AgBvACFEQABuACFRAQBtACFSAQBtACFTAQBtACECAAAAHQAgCAAAKQAgAgAAAB0AIAgAACkAIAMAAAAaACAPAAAiACAQAAAnACABAAAAGgAgAQAAAB0AIAUVAABwACAWAABxACAXAAB0ACAYAABzACAZAAByACAIPAAAWwAwPQAAMAAQPgAAWwAwPwIATQAhREAATwAhUQEATgAhUgEATgAhUwEATgAhAwAAAB0AIAMAAC8AMBQAADAAIAMAAAAdACADAAAeADAEAAAaACAKPAAAVwAwPQAANgAQPgAAVwAwPwIAAAABQAEAWQAhQQEAWQAhQgEAWQAhQwEAWQAhREAAWgAhRUAAWgAhAQAAADMAIAEAAAAzACAKPAAAVwAwPQAANgAQPgAAVwAwPwIAWAAhQAEAWQAhQQEAWQAhQgEAWQAhQwEAWQAhREAAWgAhRUAAWgAhAAMAAAA2ACADAAA3ADAEAAAzACADAAAANgAgAwAANwAwBAAAMwAgAwAAADYAIAMAADcAMAQAADMAIAc_AgAAAAFAAQAAAAFBAQAAAAFCAQAAAAFDAQAAAAFEQAAAAAFFQAAAAAEBCAAAOwAgBz8CAAAAAUABAAAAAUEBAAAAAUIBAAAAAUMBAAAAAURAAAAAAUVAAAAAAQEIAAA9ADABCAAAPQAwBz8CAG8AIUABAG0AIUEBAG0AIUIBAG0AIUMBAG0AIURAAG4AIUVAAG4AIQIAAAAzACAIAABAACAHPwIAbwAhQAEAbQAhQQEAbQAhQgEAbQAhQwEAbQAhREAAbgAhRUAAbgAhAgAAADYAIAgAAEIAIAIAAAA2ACAIAABCACADAAAAMwAgDwAAOwAgEAAAQAAgAQAAADMAIAEAAAA2ACAFFQAAaAAgFgAAaQAgFwAAbAAgGAAAawAgGQAAagAgCjwAAEwAMD0AAEkAED4AAEwAMD8CAE0AIUABAE4AIUEBAE4AIUIBAE4AIUMBAE4AIURAAE8AIUVAAE8AIQMAAAA2ACADAABIADAUAABJACADAAAANgAgAwAANwAwBAAAMwAgCjwAAEwAMD0AAEkAED4AAEwAMD8CAE0AIUABAE4AIUEBAE4AIUIBAE4AIUMBAE4AIURAAE8AIUVAAE8AIQ0VAABRACAWAABWACAXAABRACAYAABRACAZAABRACBGAgAAAAFHAgAAAARIAgAAAARJAgAAAAFKAgAAAAFLAgAAAAFMAgAAAAFNAgBVACEOFQAAUQAgGAAAVAAgGQAAVAAgRgEAAAABRwEAAAAESAEAAAAESQEAAAABSgEAAAABSwEAAAABTAEAAAABTQEAUwAhTgEAAAABTwEAAAABUAEAAAABCxUAAFEAIBgAAFIAIBkAAFIAIEZAAAAAAUdAAAAABEhAAAAABElAAAAAAUpAAAAAAUtAAAAAAUxAAAAAAU1AAFAAIQsVAABRACAYAABSACAZAABSACBGQAAAAAFHQAAAAARIQAAAAARJQAAAAAFKQAAAAAFLQAAAAAFMQAAAAAFNQABQACEIRgIAAAABRwIAAAAESAIAAAAESQIAAAABSgIAAAABSwIAAAABTAIAAAABTQIAUQAhCEZAAAAAAUdAAAAABEhAAAAABElAAAAAAUpAAAAAAUtAAAAAAUxAAAAAAU1AAFIAIQ4VAABRACAYAABUACAZAABUACBGAQAAAAFHAQAAAARIAQAAAARJAQAAAAFKAQAAAAFLAQAAAAFMAQAAAAFNAQBTACFOAQAAAAFPAQAAAAFQAQAAAAELRgEAAAABRwEAAAAESAEAAAAESQEAAAABSgEAAAABSwEAAAABTAEAAAABTQEAVAAhTgEAAAABTwEAAAABUAEAAAABDRUAAFEAIBYAAFYAIBcAAFEAIBgAAFEAIBkAAFEAIEYCAAAAAUcCAAAABEgCAAAABEkCAAAAAUoCAAAAAUsCAAAAAUwCAAAAAU0CAFUAIQhGCAAAAAFHCAAAAARICAAAAARJCAAAAAFKCAAAAAFLCAAAAAFMCAAAAAFNCABWACEKPAAAVwAwPQAANgAQPgAAVwAwPwIAWAAhQAEAWQAhQQEAWQAhQgEAWQAhQwEAWQAhREAAWgAhRUAAWgAhCEYCAAAAAUcCAAAABEgCAAAABEkCAAAAAUoCAAAAAUsCAAAAAUwCAAAAAU0CAFEAIQtGAQAAAAFHAQAAAARIAQAAAARJAQAAAAFKAQAAAAFLAQAAAAFMAQAAAAFNAQBUACFOAQAAAAFPAQAAAAFQAQAAAAEIRkAAAAABR0AAAAAESEAAAAAESUAAAAABSkAAAAABS0AAAAABTEAAAAABTUAAUgAhCDwAAFsAMD0AADAAED4AAFsAMD8CAE0AIURAAE8AIVEBAE4AIVIBAE4AIVMBAE4AIQg8AABcADA9AAAdABA-AABcADA_AgBYACFEQABaACFRAQBZACFSAQBZACFTAQBZACEJPAAAXQAwPQAAFwAQPgAAXQAwPwIATQAhREAATwAhRUAATwAhUQEATgAhVAEAXgAhVSAAXwAhDhUAAGMAIBgAAGQAIBkAAGQAIEYBAAAAAUcBAAAABUgBAAAABUkBAAAAAUoBAAAAAUsBAAAAAUwBAAAAAU0BAGIAIU4BAAAAAU8BAAAAAVABAAAAAQUVAABRACAYAABhACAZAABhACBGIAAAAAFNIABgACEFFQAAUQAgGAAAYQAgGQAAYQAgRiAAAAABTSAAYAAhAkYgAAAAAU0gAGEAIQ4VAABjACAYAABkACAZAABkACBGAQAAAAFHAQAAAAVIAQAAAAVJAQAAAAFKAQAAAAFLAQAAAAFMAQAAAAFNAQBiACFOAQAAAAFPAQAAAAFQAQAAAAEIRgIAAAABRwIAAAAFSAIAAAAFSQIAAAABSgIAAAABSwIAAAABTAIAAAABTQIAYwAhC0YBAAAAAUcBAAAABUgBAAAABUkBAAAAAUoBAAAAAUsBAAAAAUwBAAAAAU0BAGQAIU4BAAAAAU8BAAAAAVABAAAAAQk8AABlADA9AAAEABA-AABlADA_AgBYACFEQABaACFFQABaACFRAQBZACFUAQBmACFVIABnACELRgEAAAABRwEAAAAFSAEAAAAFSQEAAAABSgEAAAABSwEAAAABTAEAAAABTQEAZAAhTgEAAAABTwEAAAABUAEAAAABAkYgAAAAAU0gAGEAIQAAAAAAAVYBAAAAAQFWQAAAAAEFVgIAAAABVwIAAAABWAIAAAABWQIAAAABWgIAAAABAAAAAAAAAAAAAAABVgEAAAABAVYgAAAAAQAAAAAFFQAGFgAHFwAIGAAJGQAKAAAAAAAFFQAGFgAHFwAIGAAJGQAKAAAABRUAEBYAERcAEhgAExkAFAAAAAAABRUAEBYAERcAEhgAExkAFAAAAAUVABoWABsXABwYAB0ZAB4AAAAAAAUVABoWABsXABwYAB0ZAB4BAgECAwEFBgEGBwEHCAEJCgEKDAILDQMMDwENEQIOEgQREwESFAETFQIaGAUbGQscGwwdHAweHwwfIAwgIQwhIwwiJQIjJg0kKAwlKgImKw4nLAwoLQwpLgIqMQ8rMhUsNBYtNRYuOBYvORYwOhYxPBYyPgIzPxc0QRY1QwI2RBg3RRY4RhY5RwI6Shk7Sx8"
 }
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
@@ -70,8 +70,8 @@ export interface PrismaClientConstructor {
    * const prisma = new PrismaClient({
    *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
    * })
-   * // Fetch zero or more Users
-   * const users = await prisma.user.findMany()
+   * // Fetch zero or more Tasks
+   * const tasks = await prisma.task.findMany()
    * ```
    * 
    * Read more in our [docs](https://pris.ly/d/client).
@@ -94,8 +94,8 @@ export interface PrismaClientConstructor {
  * const prisma = new PrismaClient({
  *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
  * })
- * // Fetch zero or more Users
- * const users = await prisma.user.findMany()
+ * // Fetch zero or more Tasks
+ * const tasks = await prisma.task.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -188,7 +188,35 @@ export interface PrismaClient<
     extArgs: ExtArgs
   }>>
 
-    
+      /**
+   * `prisma.task`: Exposes CRUD operations for the **Task** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Tasks
+    * const tasks = await prisma.task.findMany()
+    * ```
+    */
+  get task(): Prisma.TaskDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.inboxItem`: Exposes CRUD operations for the **InboxItem** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more InboxItems
+    * const inboxItems = await prisma.inboxItem.findMany()
+    * ```
+    */
+  get inboxItem(): Prisma.InboxItemDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.project`: Exposes CRUD operations for the **Project** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Projects
+    * const projects = await prisma.project.findMany()
+    * ```
+    */
+  get project(): Prisma.ProjectDelegate<ExtArgs, { omit: OmitOpts }>;
 }
 
 export function getPrismaClientClass(): PrismaClientConstructor {
