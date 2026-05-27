@@ -3,10 +3,10 @@ import { prisma } from "@/lib/prisma"
 import { User } from "@/interface/User"
 import { Project } from "@/interface/Project"
 
-interface TasksListingParams {
+export interface TasksListingParams {
   id?: number
-  project?: Project
-  assignedTo?: User[]
+  projectId?: number
+  assignedTo?: number[]
   status?: string
   note?: string
   dueDate?: Date
@@ -14,11 +14,11 @@ interface TasksListingParams {
   updatedAt?: Date
 }
 
-interface TaskCreationParams {
+export interface TaskCreationParams {
   title: string
   details: string
-  project: Project
-  assignedTo: User[]
+  projectId: number
+  assignedTo: number[]
   status: string
   note: string
   dueDate: Date
@@ -31,14 +31,14 @@ export async function listTasks(params: TasksListingParams) {
     where.id = params.id
   }
 
-  if (params.project !== undefined) {
-    where.projectId = params.project.id
+  if (params.projectId !== undefined) {
+    where.projectId = params.projectId
   }
 
   if (params.assignedTo !== undefined) {
     where.assignedTo = {
       some: {
-        id: { in: params.assignedTo.map((user) => user.id) },
+        id: { in: params.assignedTo },
       },
     }
   }
@@ -116,14 +116,22 @@ export async function deleteTask(taskId: number) {
 }
 
 export async function createTask(input: TaskCreationParams) {
+  const data: any = {
+    title: input.title,
+    details: input.details,
+    status: input.status,
+    note: input.note,
+    dueDate: input.dueDate,
+  }
+
   return prisma.task.create({
     data: {
-        ...input,
+        ...data,
         project: {
-            connect: { id: input.project.id },
+            connect: { id: input.projectId },
         },
         assignedTo: {
-            connect: input.assignedTo.map((user) => ({ id: user.id })),
+            connect: input.assignedTo.map((userId) => ({ id: userId })),
         },
     },
   })
