@@ -13,16 +13,17 @@ datasource db {
 }
 
 model User {
-  id       Int       @id @default(autoincrement())
-  name     String
-  email    String
-  password String
-  subTeam  String
-  status   String
-  team     Team?     @relation(fields: [teamId], references: [id])
-  teamId   Int?
-  tasks    Task[]
-  projects Project[]
+  id         Int         @id @default(autoincrement())
+  name       String
+  email      String
+  password   String
+  subTeam    String
+  status     String
+  team       Team?       @relation(fields: [teamId], references: [id])
+  teamId     Int?
+  tasks      Task[]
+  projects   Project[]
+  inboxItems InboxItem[]
 }
 
 model Team {
@@ -51,7 +52,10 @@ model InboxItem {
   title       String
   description String
   category    String
+  user        User     @relation(fields: [userId], references: [id])
+  href        String?
   createdAt   DateTime @default(now())
+  userId      Int
 }
 
 model Project {

@@ -28,10 +28,12 @@ export type AggregateInboxItem = {
 
 export type InboxItemAvgAggregateOutputType = {
   id: number | null
+  userId: number | null
 }
 
 export type InboxItemSumAggregateOutputType = {
   id: number | null
+  userId: number | null
 }
 
 export type InboxItemMinAggregateOutputType = {
@@ -39,7 +41,9 @@ export type InboxItemMinAggregateOutputType = {
   title: string | null
   description: string | null
   category: string | null
+  href: string | null
   createdAt: Date | null
+  userId: number | null
 }
 
 export type InboxItemMaxAggregateOutputType = {
@@ -47,7 +51,9 @@ export type InboxItemMaxAggregateOutputType = {
   title: string | null
   description: string | null
   category: string | null
+  href: string | null
   createdAt: Date | null
+  userId: number | null
 }
 
 export type InboxItemCountAggregateOutputType = {
@@ -55,17 +61,21 @@ export type InboxItemCountAggregateOutputType = {
   title: number
   description: number
   category: number
+  href: number
   createdAt: number
+  userId: number
   _all: number
 }
 
 
 export type InboxItemAvgAggregateInputType = {
   id?: true
+  userId?: true
 }
 
 export type InboxItemSumAggregateInputType = {
   id?: true
+  userId?: true
 }
 
 export type InboxItemMinAggregateInputType = {
@@ -73,7 +83,9 @@ export type InboxItemMinAggregateInputType = {
   title?: true
   description?: true
   category?: true
+  href?: true
   createdAt?: true
+  userId?: true
 }
 
 export type InboxItemMaxAggregateInputType = {
@@ -81,7 +93,9 @@ export type InboxItemMaxAggregateInputType = {
   title?: true
   description?: true
   category?: true
+  href?: true
   createdAt?: true
+  userId?: true
 }
 
 export type InboxItemCountAggregateInputType = {
@@ -89,7 +103,9 @@ export type InboxItemCountAggregateInputType = {
   title?: true
   description?: true
   category?: true
+  href?: true
   createdAt?: true
+  userId?: true
   _all?: true
 }
 
@@ -184,7 +200,9 @@ export type InboxItemGroupByOutputType = {
   title: string
   description: string
   category: string
+  href: string | null
   createdAt: Date
+  userId: number
   _count: InboxItemCountAggregateOutputType | null
   _avg: InboxItemAvgAggregateOutputType | null
   _sum: InboxItemSumAggregateOutputType | null
@@ -215,7 +233,10 @@ export type InboxItemWhereInput = {
   title?: Prisma.StringFilter<"InboxItem"> | string
   description?: Prisma.StringFilter<"InboxItem"> | string
   category?: Prisma.StringFilter<"InboxItem"> | string
+  href?: Prisma.StringNullableFilter<"InboxItem"> | string | null
   createdAt?: Prisma.DateTimeFilter<"InboxItem"> | Date | string
+  userId?: Prisma.IntFilter<"InboxItem"> | number
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type InboxItemOrderByWithRelationInput = {
@@ -223,7 +244,10 @@ export type InboxItemOrderByWithRelationInput = {
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  href?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type InboxItemWhereUniqueInput = Prisma.AtLeast<{
@@ -234,7 +258,10 @@ export type InboxItemWhereUniqueInput = Prisma.AtLeast<{
   title?: Prisma.StringFilter<"InboxItem"> | string
   description?: Prisma.StringFilter<"InboxItem"> | string
   category?: Prisma.StringFilter<"InboxItem"> | string
+  href?: Prisma.StringNullableFilter<"InboxItem"> | string | null
   createdAt?: Prisma.DateTimeFilter<"InboxItem"> | Date | string
+  userId?: Prisma.IntFilter<"InboxItem"> | number
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
 
 export type InboxItemOrderByWithAggregationInput = {
@@ -242,7 +269,9 @@ export type InboxItemOrderByWithAggregationInput = {
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  href?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   _count?: Prisma.InboxItemCountOrderByAggregateInput
   _avg?: Prisma.InboxItemAvgOrderByAggregateInput
   _max?: Prisma.InboxItemMaxOrderByAggregateInput
@@ -258,14 +287,18 @@ export type InboxItemScalarWhereWithAggregatesInput = {
   title?: Prisma.StringWithAggregatesFilter<"InboxItem"> | string
   description?: Prisma.StringWithAggregatesFilter<"InboxItem"> | string
   category?: Prisma.StringWithAggregatesFilter<"InboxItem"> | string
+  href?: Prisma.StringNullableWithAggregatesFilter<"InboxItem"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"InboxItem"> | Date | string
+  userId?: Prisma.IntWithAggregatesFilter<"InboxItem"> | number
 }
 
 export type InboxItemCreateInput = {
   title: string
   description: string
   category: string
+  href?: string | null
   createdAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutInboxItemsInput
 }
 
 export type InboxItemUncheckedCreateInput = {
@@ -273,14 +306,18 @@ export type InboxItemUncheckedCreateInput = {
   title: string
   description: string
   category: string
+  href?: string | null
   createdAt?: Date | string
+  userId: number
 }
 
 export type InboxItemUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
+  href?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutInboxItemsNestedInput
 }
 
 export type InboxItemUncheckedUpdateInput = {
@@ -288,7 +325,9 @@ export type InboxItemUncheckedUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
+  href?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type InboxItemCreateManyInput = {
@@ -296,13 +335,16 @@ export type InboxItemCreateManyInput = {
   title: string
   description: string
   category: string
+  href?: string | null
   createdAt?: Date | string
+  userId: number
 }
 
 export type InboxItemUpdateManyMutationInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
+  href?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -311,7 +353,19 @@ export type InboxItemUncheckedUpdateManyInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
+  href?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+}
+
+export type InboxItemListRelationFilter = {
+  every?: Prisma.InboxItemWhereInput
+  some?: Prisma.InboxItemWhereInput
+  none?: Prisma.InboxItemWhereInput
+}
+
+export type InboxItemOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type InboxItemCountOrderByAggregateInput = {
@@ -319,11 +373,14 @@ export type InboxItemCountOrderByAggregateInput = {
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  href?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
 }
 
 export type InboxItemAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
 }
 
 export type InboxItemMaxOrderByAggregateInput = {
@@ -331,7 +388,9 @@ export type InboxItemMaxOrderByAggregateInput = {
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  href?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
 }
 
 export type InboxItemMinOrderByAggregateInput = {
@@ -339,11 +398,146 @@ export type InboxItemMinOrderByAggregateInput = {
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  href?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
 }
 
 export type InboxItemSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+}
+
+export type InboxItemCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.InboxItemCreateWithoutUserInput, Prisma.InboxItemUncheckedCreateWithoutUserInput> | Prisma.InboxItemCreateWithoutUserInput[] | Prisma.InboxItemUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.InboxItemCreateOrConnectWithoutUserInput | Prisma.InboxItemCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.InboxItemCreateManyUserInputEnvelope
+  connect?: Prisma.InboxItemWhereUniqueInput | Prisma.InboxItemWhereUniqueInput[]
+}
+
+export type InboxItemUncheckedCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.InboxItemCreateWithoutUserInput, Prisma.InboxItemUncheckedCreateWithoutUserInput> | Prisma.InboxItemCreateWithoutUserInput[] | Prisma.InboxItemUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.InboxItemCreateOrConnectWithoutUserInput | Prisma.InboxItemCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.InboxItemCreateManyUserInputEnvelope
+  connect?: Prisma.InboxItemWhereUniqueInput | Prisma.InboxItemWhereUniqueInput[]
+}
+
+export type InboxItemUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.InboxItemCreateWithoutUserInput, Prisma.InboxItemUncheckedCreateWithoutUserInput> | Prisma.InboxItemCreateWithoutUserInput[] | Prisma.InboxItemUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.InboxItemCreateOrConnectWithoutUserInput | Prisma.InboxItemCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.InboxItemUpsertWithWhereUniqueWithoutUserInput | Prisma.InboxItemUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.InboxItemCreateManyUserInputEnvelope
+  set?: Prisma.InboxItemWhereUniqueInput | Prisma.InboxItemWhereUniqueInput[]
+  disconnect?: Prisma.InboxItemWhereUniqueInput | Prisma.InboxItemWhereUniqueInput[]
+  delete?: Prisma.InboxItemWhereUniqueInput | Prisma.InboxItemWhereUniqueInput[]
+  connect?: Prisma.InboxItemWhereUniqueInput | Prisma.InboxItemWhereUniqueInput[]
+  update?: Prisma.InboxItemUpdateWithWhereUniqueWithoutUserInput | Prisma.InboxItemUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.InboxItemUpdateManyWithWhereWithoutUserInput | Prisma.InboxItemUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.InboxItemScalarWhereInput | Prisma.InboxItemScalarWhereInput[]
+}
+
+export type InboxItemUncheckedUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.InboxItemCreateWithoutUserInput, Prisma.InboxItemUncheckedCreateWithoutUserInput> | Prisma.InboxItemCreateWithoutUserInput[] | Prisma.InboxItemUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.InboxItemCreateOrConnectWithoutUserInput | Prisma.InboxItemCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.InboxItemUpsertWithWhereUniqueWithoutUserInput | Prisma.InboxItemUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.InboxItemCreateManyUserInputEnvelope
+  set?: Prisma.InboxItemWhereUniqueInput | Prisma.InboxItemWhereUniqueInput[]
+  disconnect?: Prisma.InboxItemWhereUniqueInput | Prisma.InboxItemWhereUniqueInput[]
+  delete?: Prisma.InboxItemWhereUniqueInput | Prisma.InboxItemWhereUniqueInput[]
+  connect?: Prisma.InboxItemWhereUniqueInput | Prisma.InboxItemWhereUniqueInput[]
+  update?: Prisma.InboxItemUpdateWithWhereUniqueWithoutUserInput | Prisma.InboxItemUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.InboxItemUpdateManyWithWhereWithoutUserInput | Prisma.InboxItemUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.InboxItemScalarWhereInput | Prisma.InboxItemScalarWhereInput[]
+}
+
+export type InboxItemCreateWithoutUserInput = {
+  title: string
+  description: string
+  category: string
+  href?: string | null
+  createdAt?: Date | string
+}
+
+export type InboxItemUncheckedCreateWithoutUserInput = {
+  id?: number
+  title: string
+  description: string
+  category: string
+  href?: string | null
+  createdAt?: Date | string
+}
+
+export type InboxItemCreateOrConnectWithoutUserInput = {
+  where: Prisma.InboxItemWhereUniqueInput
+  create: Prisma.XOR<Prisma.InboxItemCreateWithoutUserInput, Prisma.InboxItemUncheckedCreateWithoutUserInput>
+}
+
+export type InboxItemCreateManyUserInputEnvelope = {
+  data: Prisma.InboxItemCreateManyUserInput | Prisma.InboxItemCreateManyUserInput[]
+}
+
+export type InboxItemUpsertWithWhereUniqueWithoutUserInput = {
+  where: Prisma.InboxItemWhereUniqueInput
+  update: Prisma.XOR<Prisma.InboxItemUpdateWithoutUserInput, Prisma.InboxItemUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.InboxItemCreateWithoutUserInput, Prisma.InboxItemUncheckedCreateWithoutUserInput>
+}
+
+export type InboxItemUpdateWithWhereUniqueWithoutUserInput = {
+  where: Prisma.InboxItemWhereUniqueInput
+  data: Prisma.XOR<Prisma.InboxItemUpdateWithoutUserInput, Prisma.InboxItemUncheckedUpdateWithoutUserInput>
+}
+
+export type InboxItemUpdateManyWithWhereWithoutUserInput = {
+  where: Prisma.InboxItemScalarWhereInput
+  data: Prisma.XOR<Prisma.InboxItemUpdateManyMutationInput, Prisma.InboxItemUncheckedUpdateManyWithoutUserInput>
+}
+
+export type InboxItemScalarWhereInput = {
+  AND?: Prisma.InboxItemScalarWhereInput | Prisma.InboxItemScalarWhereInput[]
+  OR?: Prisma.InboxItemScalarWhereInput[]
+  NOT?: Prisma.InboxItemScalarWhereInput | Prisma.InboxItemScalarWhereInput[]
+  id?: Prisma.IntFilter<"InboxItem"> | number
+  title?: Prisma.StringFilter<"InboxItem"> | string
+  description?: Prisma.StringFilter<"InboxItem"> | string
+  category?: Prisma.StringFilter<"InboxItem"> | string
+  href?: Prisma.StringNullableFilter<"InboxItem"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"InboxItem"> | Date | string
+  userId?: Prisma.IntFilter<"InboxItem"> | number
+}
+
+export type InboxItemCreateManyUserInput = {
+  id?: number
+  title: string
+  description: string
+  category: string
+  href?: string | null
+  createdAt?: Date | string
+}
+
+export type InboxItemUpdateWithoutUserInput = {
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  href?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type InboxItemUncheckedUpdateWithoutUserInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  href?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type InboxItemUncheckedUpdateManyWithoutUserInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  href?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -353,7 +547,10 @@ export type InboxItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   title?: boolean
   description?: boolean
   category?: boolean
+  href?: boolean
   createdAt?: boolean
+  userId?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["inboxItem"]>
 
 export type InboxItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -361,7 +558,10 @@ export type InboxItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   title?: boolean
   description?: boolean
   category?: boolean
+  href?: boolean
   createdAt?: boolean
+  userId?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["inboxItem"]>
 
 export type InboxItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -369,7 +569,10 @@ export type InboxItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   title?: boolean
   description?: boolean
   category?: boolean
+  href?: boolean
   createdAt?: boolean
+  userId?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["inboxItem"]>
 
 export type InboxItemSelectScalar = {
@@ -377,20 +580,35 @@ export type InboxItemSelectScalar = {
   title?: boolean
   description?: boolean
   category?: boolean
+  href?: boolean
   createdAt?: boolean
+  userId?: boolean
 }
 
-export type InboxItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "category" | "createdAt", ExtArgs["result"]["inboxItem"]>
+export type InboxItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "category" | "href" | "createdAt" | "userId", ExtArgs["result"]["inboxItem"]>
+export type InboxItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type InboxItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type InboxItemIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
 
 export type $InboxItemPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "InboxItem"
-  objects: {}
+  objects: {
+    user: Prisma.$UserPayload<ExtArgs>
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     title: string
     description: string
     category: string
+    href: string | null
     createdAt: Date
+    userId: number
   }, ExtArgs["result"]["inboxItem"]>
   composites: {}
 }
@@ -785,6 +1003,7 @@ readonly fields: InboxItemFieldRefs;
  */
 export interface Prisma__InboxItemClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -818,7 +1037,9 @@ export interface InboxItemFieldRefs {
   readonly title: Prisma.FieldRef<"InboxItem", 'String'>
   readonly description: Prisma.FieldRef<"InboxItem", 'String'>
   readonly category: Prisma.FieldRef<"InboxItem", 'String'>
+  readonly href: Prisma.FieldRef<"InboxItem", 'String'>
   readonly createdAt: Prisma.FieldRef<"InboxItem", 'DateTime'>
+  readonly userId: Prisma.FieldRef<"InboxItem", 'Int'>
 }
     
 
@@ -835,6 +1056,10 @@ export type InboxItemFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the InboxItem
    */
   omit?: Prisma.InboxItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InboxItemInclude<ExtArgs> | null
   /**
    * Filter, which InboxItem to fetch.
    */
@@ -854,6 +1079,10 @@ export type InboxItemFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensi
    */
   omit?: Prisma.InboxItemOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InboxItemInclude<ExtArgs> | null
+  /**
    * Filter, which InboxItem to fetch.
    */
   where: Prisma.InboxItemWhereUniqueInput
@@ -871,6 +1100,10 @@ export type InboxItemFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the InboxItem
    */
   omit?: Prisma.InboxItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InboxItemInclude<ExtArgs> | null
   /**
    * Filter, which InboxItem to fetch.
    */
@@ -920,6 +1153,10 @@ export type InboxItemFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensio
    */
   omit?: Prisma.InboxItemOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InboxItemInclude<ExtArgs> | null
+  /**
    * Filter, which InboxItem to fetch.
    */
   where?: Prisma.InboxItemWhereInput
@@ -967,6 +1204,10 @@ export type InboxItemFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the InboxItem
    */
   omit?: Prisma.InboxItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InboxItemInclude<ExtArgs> | null
   /**
    * Filter, which InboxItems to fetch.
    */
@@ -1016,6 +1257,10 @@ export type InboxItemCreateArgs<ExtArgs extends runtime.Types.Extensions.Interna
    */
   omit?: Prisma.InboxItemOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InboxItemInclude<ExtArgs> | null
+  /**
    * The data needed to create a InboxItem.
    */
   data: Prisma.XOR<Prisma.InboxItemCreateInput, Prisma.InboxItemUncheckedCreateInput>
@@ -1047,6 +1292,10 @@ export type InboxItemCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exten
    * The data used to create many InboxItems.
    */
   data: Prisma.InboxItemCreateManyInput | Prisma.InboxItemCreateManyInput[]
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InboxItemIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1061,6 +1310,10 @@ export type InboxItemUpdateArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Omit specific fields from the InboxItem
    */
   omit?: Prisma.InboxItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InboxItemInclude<ExtArgs> | null
   /**
    * The data needed to update a InboxItem.
    */
@@ -1113,6 +1366,10 @@ export type InboxItemUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Exten
    * Limit how many InboxItems to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InboxItemIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1127,6 +1384,10 @@ export type InboxItemUpsertArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Omit specific fields from the InboxItem
    */
   omit?: Prisma.InboxItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InboxItemInclude<ExtArgs> | null
   /**
    * The filter to search for the InboxItem to update in case it exists.
    */
@@ -1153,6 +1414,10 @@ export type InboxItemDeleteArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Omit specific fields from the InboxItem
    */
   omit?: Prisma.InboxItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InboxItemInclude<ExtArgs> | null
   /**
    * Filter which InboxItem to delete.
    */
@@ -1185,4 +1450,8 @@ export type InboxItemDefaultArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the InboxItem
    */
   omit?: Prisma.InboxItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InboxItemInclude<ExtArgs> | null
 }

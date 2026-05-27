@@ -856,7 +856,9 @@ export const InboxItemScalarFieldEnum = {
   title: 'title',
   description: 'description',
   category: 'category',
-  createdAt: 'createdAt'
+  href: 'href',
+  createdAt: 'createdAt',
+  userId: 'userId'
 } as const
 
 export type InboxItemScalarFieldEnum = (typeof InboxItemScalarFieldEnum)[keyof typeof InboxItemScalarFieldEnum]

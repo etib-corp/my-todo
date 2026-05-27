@@ -239,6 +239,7 @@ export type UserWhereInput = {
   team?: Prisma.XOR<Prisma.TeamNullableScalarRelationFilter, Prisma.TeamWhereInput> | null
   tasks?: Prisma.TaskListRelationFilter
   projects?: Prisma.ProjectListRelationFilter
+  inboxItems?: Prisma.InboxItemListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -252,6 +253,7 @@ export type UserOrderByWithRelationInput = {
   team?: Prisma.TeamOrderByWithRelationInput
   tasks?: Prisma.TaskOrderByRelationAggregateInput
   projects?: Prisma.ProjectOrderByRelationAggregateInput
+  inboxItems?: Prisma.InboxItemOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -268,6 +270,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   team?: Prisma.XOR<Prisma.TeamNullableScalarRelationFilter, Prisma.TeamWhereInput> | null
   tasks?: Prisma.TaskListRelationFilter
   projects?: Prisma.ProjectListRelationFilter
+  inboxItems?: Prisma.InboxItemListRelationFilter
 }, "id">
 
 export type UserOrderByWithAggregationInput = {
@@ -307,6 +310,7 @@ export type UserCreateInput = {
   team?: Prisma.TeamCreateNestedOneWithoutMembersInput
   tasks?: Prisma.TaskCreateNestedManyWithoutAssignedToInput
   projects?: Prisma.ProjectCreateNestedManyWithoutMembersInput
+  inboxItems?: Prisma.InboxItemCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -319,6 +323,7 @@ export type UserUncheckedCreateInput = {
   teamId?: number | null
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssignedToInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutMembersInput
+  inboxItems?: Prisma.InboxItemUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -330,6 +335,7 @@ export type UserUpdateInput = {
   team?: Prisma.TeamUpdateOneWithoutMembersNestedInput
   tasks?: Prisma.TaskUpdateManyWithoutAssignedToNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutMembersNestedInput
+  inboxItems?: Prisma.InboxItemUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -342,6 +348,7 @@ export type UserUncheckedUpdateInput = {
   teamId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutAssignedToNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutMembersNestedInput
+  inboxItems?: Prisma.InboxItemUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -420,6 +427,11 @@ export type UserListRelationFilter = {
 
 export type UserOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type UserScalarRelationFilter = {
+  is?: Prisma.UserWhereInput
+  isNot?: Prisma.UserWhereInput
 }
 
 export type StringFieldUpdateOperationsInput = {
@@ -522,6 +534,20 @@ export type UserUncheckedUpdateManyWithoutTasksNestedInput = {
   deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
 }
 
+export type UserCreateNestedOneWithoutInboxItemsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutInboxItemsInput, Prisma.UserUncheckedCreateWithoutInboxItemsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInboxItemsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutInboxItemsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutInboxItemsInput, Prisma.UserUncheckedCreateWithoutInboxItemsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInboxItemsInput
+  upsert?: Prisma.UserUpsertWithoutInboxItemsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutInboxItemsInput, Prisma.UserUpdateWithoutInboxItemsInput>, Prisma.UserUncheckedUpdateWithoutInboxItemsInput>
+}
+
 export type UserCreateNestedManyWithoutProjectsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutProjectsInput, Prisma.UserUncheckedCreateWithoutProjectsInput> | Prisma.UserCreateWithoutProjectsInput[] | Prisma.UserUncheckedCreateWithoutProjectsInput[]
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutProjectsInput | Prisma.UserCreateOrConnectWithoutProjectsInput[]
@@ -568,6 +594,7 @@ export type UserCreateWithoutTeamInput = {
   status: string
   tasks?: Prisma.TaskCreateNestedManyWithoutAssignedToInput
   projects?: Prisma.ProjectCreateNestedManyWithoutMembersInput
+  inboxItems?: Prisma.InboxItemCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTeamInput = {
@@ -579,6 +606,7 @@ export type UserUncheckedCreateWithoutTeamInput = {
   status: string
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssignedToInput
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutMembersInput
+  inboxItems?: Prisma.InboxItemUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTeamInput = {
@@ -627,6 +655,7 @@ export type UserCreateWithoutTasksInput = {
   status: string
   team?: Prisma.TeamCreateNestedOneWithoutMembersInput
   projects?: Prisma.ProjectCreateNestedManyWithoutMembersInput
+  inboxItems?: Prisma.InboxItemCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTasksInput = {
@@ -638,6 +667,7 @@ export type UserUncheckedCreateWithoutTasksInput = {
   status: string
   teamId?: number | null
   projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutMembersInput
+  inboxItems?: Prisma.InboxItemUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTasksInput = {
@@ -661,6 +691,68 @@ export type UserUpdateManyWithWhereWithoutTasksInput = {
   data: Prisma.XOR<Prisma.UserUpdateManyMutationInput, Prisma.UserUncheckedUpdateManyWithoutTasksInput>
 }
 
+export type UserCreateWithoutInboxItemsInput = {
+  name: string
+  email: string
+  password: string
+  subTeam: string
+  status: string
+  team?: Prisma.TeamCreateNestedOneWithoutMembersInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutAssignedToInput
+  projects?: Prisma.ProjectCreateNestedManyWithoutMembersInput
+}
+
+export type UserUncheckedCreateWithoutInboxItemsInput = {
+  id?: number
+  name: string
+  email: string
+  password: string
+  subTeam: string
+  status: string
+  teamId?: number | null
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssignedToInput
+  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutMembersInput
+}
+
+export type UserCreateOrConnectWithoutInboxItemsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutInboxItemsInput, Prisma.UserUncheckedCreateWithoutInboxItemsInput>
+}
+
+export type UserUpsertWithoutInboxItemsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutInboxItemsInput, Prisma.UserUncheckedUpdateWithoutInboxItemsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutInboxItemsInput, Prisma.UserUncheckedCreateWithoutInboxItemsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutInboxItemsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutInboxItemsInput, Prisma.UserUncheckedUpdateWithoutInboxItemsInput>
+}
+
+export type UserUpdateWithoutInboxItemsInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  subTeam?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  team?: Prisma.TeamUpdateOneWithoutMembersNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutAssignedToNestedInput
+  projects?: Prisma.ProjectUpdateManyWithoutMembersNestedInput
+}
+
+export type UserUncheckedUpdateWithoutInboxItemsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  subTeam?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  teamId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutAssignedToNestedInput
+  projects?: Prisma.ProjectUncheckedUpdateManyWithoutMembersNestedInput
+}
+
 export type UserCreateWithoutProjectsInput = {
   name: string
   email: string
@@ -669,6 +761,7 @@ export type UserCreateWithoutProjectsInput = {
   status: string
   team?: Prisma.TeamCreateNestedOneWithoutMembersInput
   tasks?: Prisma.TaskCreateNestedManyWithoutAssignedToInput
+  inboxItems?: Prisma.InboxItemCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProjectsInput = {
@@ -680,6 +773,7 @@ export type UserUncheckedCreateWithoutProjectsInput = {
   status: string
   teamId?: number | null
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssignedToInput
+  inboxItems?: Prisma.InboxItemUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProjectsInput = {
@@ -720,6 +814,7 @@ export type UserUpdateWithoutTeamInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   tasks?: Prisma.TaskUpdateManyWithoutAssignedToNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutMembersNestedInput
+  inboxItems?: Prisma.InboxItemUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTeamInput = {
@@ -731,6 +826,7 @@ export type UserUncheckedUpdateWithoutTeamInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutAssignedToNestedInput
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutMembersNestedInput
+  inboxItems?: Prisma.InboxItemUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutTeamInput = {
@@ -750,6 +846,7 @@ export type UserUpdateWithoutTasksInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   team?: Prisma.TeamUpdateOneWithoutMembersNestedInput
   projects?: Prisma.ProjectUpdateManyWithoutMembersNestedInput
+  inboxItems?: Prisma.InboxItemUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTasksInput = {
@@ -761,6 +858,7 @@ export type UserUncheckedUpdateWithoutTasksInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   projects?: Prisma.ProjectUncheckedUpdateManyWithoutMembersNestedInput
+  inboxItems?: Prisma.InboxItemUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutTasksInput = {
@@ -781,6 +879,7 @@ export type UserUpdateWithoutProjectsInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   team?: Prisma.TeamUpdateOneWithoutMembersNestedInput
   tasks?: Prisma.TaskUpdateManyWithoutAssignedToNestedInput
+  inboxItems?: Prisma.InboxItemUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProjectsInput = {
@@ -792,6 +891,7 @@ export type UserUncheckedUpdateWithoutProjectsInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutAssignedToNestedInput
+  inboxItems?: Prisma.InboxItemUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutProjectsInput = {
@@ -812,11 +912,13 @@ export type UserUncheckedUpdateManyWithoutProjectsInput = {
 export type UserCountOutputType = {
   tasks: number
   projects: number
+  inboxItems: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tasks?: boolean | UserCountOutputTypeCountTasksArgs
   projects?: boolean | UserCountOutputTypeCountProjectsArgs
+  inboxItems?: boolean | UserCountOutputTypeCountInboxItemsArgs
 }
 
 /**
@@ -843,6 +945,13 @@ export type UserCountOutputTypeCountProjectsArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.ProjectWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountInboxItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.InboxItemWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -855,6 +964,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   team?: boolean | Prisma.User$teamArgs<ExtArgs>
   tasks?: boolean | Prisma.User$tasksArgs<ExtArgs>
   projects?: boolean | Prisma.User$projectsArgs<ExtArgs>
+  inboxItems?: boolean | Prisma.User$inboxItemsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -895,6 +1005,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   team?: boolean | Prisma.User$teamArgs<ExtArgs>
   tasks?: boolean | Prisma.User$tasksArgs<ExtArgs>
   projects?: boolean | Prisma.User$projectsArgs<ExtArgs>
+  inboxItems?: boolean | Prisma.User$inboxItemsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -910,6 +1021,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     team: Prisma.$TeamPayload<ExtArgs> | null
     tasks: Prisma.$TaskPayload<ExtArgs>[]
     projects: Prisma.$ProjectPayload<ExtArgs>[]
+    inboxItems: Prisma.$InboxItemPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1316,6 +1428,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   team<T extends Prisma.User$teamArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$teamArgs<ExtArgs>>): Prisma.Prisma__TeamClient<runtime.Types.Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   tasks<T extends Prisma.User$tasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   projects<T extends Prisma.User$projectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$projectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  inboxItems<T extends Prisma.User$inboxItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$inboxItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InboxItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1815,6 +1928,30 @@ export type User$projectsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.ProjectScalarFieldEnum | Prisma.ProjectScalarFieldEnum[]
+}
+
+/**
+ * User.inboxItems
+ */
+export type User$inboxItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the InboxItem
+   */
+  select?: Prisma.InboxItemSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the InboxItem
+   */
+  omit?: Prisma.InboxItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InboxItemInclude<ExtArgs> | null
+  where?: Prisma.InboxItemWhereInput
+  orderBy?: Prisma.InboxItemOrderByWithRelationInput | Prisma.InboxItemOrderByWithRelationInput[]
+  cursor?: Prisma.InboxItemWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.InboxItemScalarFieldEnum | Prisma.InboxItemScalarFieldEnum[]
 }
 
 /**
