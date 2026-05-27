@@ -48,7 +48,7 @@ export async function listProjects(params: ProjectListingParams) {
     where.updatedAt = params.updatedAt
   }
 
-  return prisma.project.findMany({ where, orderBy: { id: "asc" } })
+  return prisma.project.findMany({ where, orderBy: { id: "desc" } })
 }
 
 export async function removeMemberFromProject(projectId: number, userId: number) {

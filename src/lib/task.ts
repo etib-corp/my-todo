@@ -63,7 +63,7 @@ export async function listTasks(params: TasksListingParams) {
     where.updatedAt = params.updatedAt
   }
 
-  return prisma.task.findMany({ where, orderBy: { id: "asc" } })
+  return prisma.task.findMany({ where, orderBy: { id: "desc" } })
 }
 
 export async function updateTaskStatus(taskId: number, status: string) {
