@@ -1,7 +1,8 @@
+import { User } from "./User";
+
 export interface Team {
     id: number;
     name: string;
     description: string;
-    members: number[];
-    subTeams: string[];
+    members: User[];
 }

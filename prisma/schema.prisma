@@ -12,13 +12,38 @@ datasource db {
   provider = "sqlite"
 }
 
+model User {
+  id       Int       @id @default(autoincrement())
+  name     String
+  email    String
+  password String
+  subTeam  String
+  status   String
+  team     Team?     @relation(fields: [teamId], references: [id])
+  teamId   Int?
+  tasks    Task[]
+  projects Project[]
+}
+
+model Team {
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String
+  members     User[]
+}
+
 model Task {
-  id        Int      @id @default(autoincrement())
-  title     String
-  details   String?
-  completed Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         Int      @id @default(autoincrement())
+  title      String
+  details    String?
+  project    Project  @relation(fields: [projectId], references: [id])
+  assignedTo User[]
+  status     String
+  note       String
+  dueDate    DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  projectId  Int
 }
 
 model InboxItem {
@@ -33,8 +58,9 @@ model Project {
   id        Int      @id @default(autoincrement())
   name      String
   status    String
-  owner     String
+  members   User[]
   note      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  tasks     Task[]
 }

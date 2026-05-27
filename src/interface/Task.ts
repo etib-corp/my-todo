@@ -1,10 +1,16 @@
+import { Project } from "./Project";
+import { User } from "./User";
+
 export interface Task {
     id: number;
     title: string;
     details: string;
-    project: number;
-    assignedTo: number[];
+    project: Project;
+    assignedTo: User[];
     status: string;
     note: string;
-    dueDate: string;
+    dueDate: Date;
+    createdAt: Date;
+    updatedAt: Date;
+    projectId: number;
 }
