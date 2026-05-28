@@ -1,11 +1,11 @@
 import { prisma } from "@/lib/prisma"
 
-interface TeamListingParams {
+export interface TeamListingParams {
   id?: number
   name?: string
 }
 
-interface TeamCreationParams {
+export interface TeamCreationParams {
   name: string
   description: string
 }
