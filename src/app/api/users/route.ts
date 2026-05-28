@@ -7,7 +7,7 @@ import {
 	listUsers,
 	UsersListingParams,
 	UserCreationParams,
-} from "@/lib/user";
+} from "@/lib/back/user";
 
 export async function GET(params: URLSearchParams) {
 	const idParam = params.get("id");

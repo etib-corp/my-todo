@@ -65,6 +65,13 @@ export function NavMain({
 
     const title = taskTitle.trim()
     const details = taskDetails.trim()
+    const projectId = 1 // Default to the first project for simplicity
+    const assignedTo: number[] = [] // No assigned users for quick create
+    const status = "not started" // Default status
+    const note = "" // No note for quick create
+    const dueDate = new Date()
+
+    dueDate.setDate(dueDate.getDate() + 1) // Default to tomorrow's date
 
     if (!title) {
       toast.error("Add a title before creating a task")
@@ -76,7 +83,15 @@ export function NavMain({
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ title, details }),
+      body: JSON.stringify({
+        title,
+        details,
+        projectId,
+        assignedTo,
+        status,
+        note,
+        dueDate,
+      }),
     })
 
     if (!response.ok) {

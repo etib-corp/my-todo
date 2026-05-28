@@ -6,7 +6,7 @@ import {
   listInboxItems,
   InboxItemCreationParams,
   InboxItemsListingParams
-} from "@/lib/inbox_item"
+} from "@/lib/back/inbox_item"
 
 export async function GET(params: URLSearchParams) {
   const idParam = params.get("id")

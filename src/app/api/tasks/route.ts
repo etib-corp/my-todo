@@ -11,7 +11,7 @@ import {
   addAssignedToTask,
   TasksListingParams,
   TaskCreationParams
-} from "@/lib/task";
+} from "@/lib/back/task";
 
 export async function GET(params: URLSearchParams) {
   const idParam = params.get("id");

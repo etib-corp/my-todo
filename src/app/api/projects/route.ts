@@ -12,7 +12,7 @@ import {
 	updateProjectNote,
 	ProjectListingParams,
 	ProjectCreationParams,
-} from "@/lib/project";
+} from "@/lib/back/project";
 
 export async function GET(params: URLSearchParams) {
 	const idParam = params.get("id");

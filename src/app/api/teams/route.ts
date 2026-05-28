@@ -8,7 +8,7 @@ import {
     removeUserFromTeam,
     TeamListingParams,
     TeamCreationParams
-} from "@/lib/teams";
+} from "@/lib/back/teams";
 
 export async function GET(params: URLSearchParams) {
   const idParam = params.get("id");
