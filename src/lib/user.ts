@@ -1,33 +1,25 @@
 import { prisma } from "@/lib/prisma";
 
-import { User } from "@/interface/User";
-import { Project } from "@/interface/Project";
-import { Team } from "@/interface/Team";
-import { Task } from "@/interface/Task";
-import { JsonNullClass } from "@prisma/client/runtime/client";
-
-interface UsersListingParams {
+export interface UsersListingParams {
 	id?: number;
 	name?: string;
 	email?: string;
 	subTeam?: string;
 	status?: string;
-	team?: Team;
 	teamId?: number;
-	tasks?: Task[];
-	projects?: Project[];
+	tasks?: number[];
+	projects?: number[];
 }
 
-interface UserCreationParams {
+export interface UserCreationParams {
 	name: string;
 	email: string;
 	password: string;
 	subTeam: string;
 	status: string;
-	team?: Team;
 	teamId?: number;
-	tasks: Task[];
-	projects: Project[];
+	tasks: number[];
+	projects: number[];
 }
 
 export async function listUsers(params: UsersListingParams) {
@@ -53,10 +45,6 @@ export async function listUsers(params: UsersListingParams) {
 		where.status = params.status;
 	}
 
-	if (params.team !== undefined) {
-		where.teamId = params.team.id;
-	}
-
 	if (params.teamId !== undefined) {
 		where.teamId = params.teamId;
 	}
@@ -64,7 +52,7 @@ export async function listUsers(params: UsersListingParams) {
 	if (params.tasks !== undefined) {
 		where.tasks = {
 			some: {
-				id: { in: params.tasks.map((task) => task.id) },
+				id: { in: params.tasks } ,
 			},
 		};
 	}
@@ -72,7 +60,7 @@ export async function listUsers(params: UsersListingParams) {
 	if (params.projects !== undefined) {
 		where.projects = {
 			some: {
-				id: { in: params.projects.map((project) => project.id) },
+				id: { in: params.projects } ,
 			},
 		};
 	}
@@ -105,20 +93,13 @@ export async function createUser(input: UserCreationParams) {
 		subTeam: input.subTeam,
 		status: input.status,
 		tasks: {
-			connect: input.tasks.map((task) => ({ id: task.id })),
+			connect: input.tasks.map((taskId) => ({ id: taskId })),
 		},
 		projects: {
-			connect: input.projects.map((project) => ({ id: project.id })),
+			connect: input.projects.map((projectId) => ({ id: projectId })),
 		},
+		teamId: input.teamId,
 	};
-
-	if (input.team) {
-		data.team = { connect: { id: input.team.id } };
-    data.teamId = input.team.id;
-	} else if (input.teamId !== undefined) {
-		data.teamId = input.teamId;
-    data.team = { connect: { id: input.teamId } };
-	}
 
 	return prisma.user.create({ data });
 }

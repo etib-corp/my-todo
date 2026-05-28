@@ -1,8 +1,5 @@
 import { prisma } from "@/lib/prisma"
 
-import { User } from "@/interface/User"
-import { Project } from "@/interface/Project"
-
 export interface TasksListingParams {
   id?: number
   projectId?: number
