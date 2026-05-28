@@ -1,24 +1,19 @@
 import { prisma } from "@/lib/prisma"
 
-import { User } from "@/interface/User"
-import { Task } from "@/interface/Task"
-
-interface ProjectListingParams {
+export interface ProjectListingParams {
   id?: number
   name?: string
   status?: string
-  members?: User[]
+  members?: number[]
   updatedAt?: Date
 }
 
-interface ProjectCreationParams {
+export interface ProjectCreationParams {
   name: string
   status: string
-  members: User[]
+  members: number[]
   note: string
-  createdAt: Date
-  updatedAt: Date
-  tasks: Task[]
+  tasks: number[]
 }
 
 export async function listProjects(params: ProjectListingParams) {
@@ -39,7 +34,7 @@ export async function listProjects(params: ProjectListingParams) {
   if (params.members !== undefined) {
     where.members = {
       some: {
-        id: { in: params.members.map((member) => member.id) },
+        id: { in: params.members.map((member) => member) },
       },
     }
   }
@@ -124,10 +119,10 @@ export async function createProject(input: ProjectCreationParams) {
     data: {
       ...input,
       members: {
-        connect: input.members.map((member) => ({ id: member.id })),
+        connect: input.members.map((member) => ({ id: member })),
       },
       tasks: {
-        connect: input.tasks.map((task) => ({ id: task.id })),
+        connect: input.tasks.map((task) => ({ id: task })),
       },
     },
   })
