@@ -1,21 +1,15 @@
 import { prisma } from "@/lib/prisma";
 
-import { User } from "@/interface/User";
-import { Project } from "@/interface/Project";
-import { Team } from "@/interface/Team";
-import { Task } from "@/interface/Task";
-
-interface InboxItemsListingParams {
+export interface InboxItemsListingParams {
 	id?: number;
 	category?: string;
 	userId?: number;
 }
 
-interface InboxItemCreationParams {
+export interface InboxItemCreationParams {
 	title: string;
 	description: string;
 	category: string;
-	user: User;
 	href?: string;
     userId: number;
 }
@@ -52,7 +46,7 @@ export async function createInboxItem(input: InboxItemCreationParams) {
         href: input.href,
         userId: input.userId,
         user: {
-            connect: { id: input.user.id },
+            connect: { id: input.userId },
         },
     };
 
