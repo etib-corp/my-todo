@@ -6,7 +6,7 @@ export async function getOverviewData() {
         prisma.$queryRaw<{ count: number }[]>`
             SELECT COUNT(*) AS count
             FROM "Task"
-            WHERE completed = 1
+            WHERE status = 'completed'
         `,
         prisma.inboxItem.count(),
         prisma.$queryRaw<
@@ -14,10 +14,10 @@ export async function getOverviewData() {
                 id: number;
                 title: string;
                 details: string | null;
-                completed: number;
+                status: string;
             }[]
         >`
-            SELECT id, title, details, completed
+            SELECT id, title, details, status
             FROM "Task"
             ORDER BY id DESC
             LIMIT 5
@@ -31,7 +31,18 @@ export async function getOverviewData() {
         inboxCount,
         recentTasks: recentTasks.map((task) => ({
             ...task,
-            completed: Boolean(task.completed),
+            completed: task.status === 'completed',
         })),
     };
+}
+
+export async function listProjects() {
+    return prisma.project.findMany({
+        select: {
+            id: true,
+            name: true,
+            status: true,
+            note: true,
+        },
+    });
 }

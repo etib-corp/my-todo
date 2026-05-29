@@ -125,7 +125,7 @@ export async function createTask(input: TaskCreationParams) {
     data: {
         ...data,
         project: {
-            connect: { id: input.projectId },
+            connect: { id: 1 },
         },
         assignedTo: {
             connect: input.assignedTo.map((userId) => ({ id: userId })),
