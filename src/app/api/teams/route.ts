@@ -1,5 +1,4 @@
-import { NextResponse } from "next/server";
-
+import { NextRequest, NextResponse } from "next/server";
 import {
     listTeams,
     createTeam,
@@ -10,37 +9,38 @@ import {
     TeamCreationParams
 } from "@/lib/back/teams";
 
-export async function GET(params: URLSearchParams) {
-  const idParam = params.get("id");
-  const nameParam = params.get("name");
+export async function GET(request: NextRequest) {
+    const searchParams = request.nextUrl.searchParams;
+    const idParam = searchParams.get("id");
+    const nameParam = searchParams.get("name");
 
-  const searchParams: TeamListingParams = {
-    id: idParam ? parseInt(idParam) : undefined,
-    name: nameParam ?? undefined,
-  };
+    const listingParams: TeamListingParams = {
+        id: idParam ? parseInt(idParam) : undefined,
+        name: nameParam ?? undefined,
+    };
 
-  const teams = await listTeams(searchParams);
+    const teams = await listTeams(listingParams);
 
-  return NextResponse.json({ teams });
+    return NextResponse.json({ teams });
 }
 
 export async function POST(request: Request) {
     const payload = (await request.json().catch(() => null)) as {
-    name?: string
-    description?: string
-  } | null;
+        name?: string;
+        description?: string;
+    } | null;
 
     if (!payload) {
-    return NextResponse.json(
-      { error: "Invalid JSON payload" },
-      { status: 400 },
-    );
-  }
+        return NextResponse.json(
+            { error: "Invalid JSON payload" },
+            { status: 400 },
+        );
+    }
 
-  const data: TeamCreationParams = {
-    name: payload.name ?? "",
-    description: payload.description ?? "",
-  }
+    const data: TeamCreationParams = {
+        name: payload.name ?? "",
+        description: payload.description ?? "",
+    };
 
     if (!data.name) {
         return NextResponse.json(
@@ -55,61 +55,61 @@ export async function POST(request: Request) {
 }
 
 export async function PATCH(request: Request) {
-  const payload = (await request.json().catch(() => null)) as {
-    teamId?: number
-    removeUserId?: number
-    addUserId?: number
-  } | null;
+    const payload = (await request.json().catch(() => null)) as {
+        teamId?: number;
+        removeUserId?: number;
+        addUserId?: number;
+    } | null;
 
-  if (!payload) {
-    return NextResponse.json(
-      { error: "Invalid JSON payload" },
-      { status: 400 },
-    );
-  }
+    if (!payload) {
+        return NextResponse.json(
+            { error: "Invalid JSON payload" },
+            { status: 400 },
+        );
+    }
 
-  const { teamId, removeUserId, addUserId } = payload;
+    const { teamId, removeUserId, addUserId } = payload;
 
-  if (!teamId) {
-    return NextResponse.json(
-      { error: "Team ID is required" },
-      { status: 400 },
-    );
-  }
+    if (!teamId) {
+        return NextResponse.json(
+            { error: "Team ID is required" },
+            { status: 400 },
+        );
+    }
 
-  if (removeUserId) {
-    await removeUserFromTeam(teamId, removeUserId);
-  }
+    if (removeUserId) {
+        await removeUserFromTeam(teamId, removeUserId);
+    }
 
-  if (addUserId) {
-    await addUserToTeam(teamId, addUserId);
-  }
+    if (addUserId) {
+        await addUserToTeam(teamId, addUserId);
+    }
 
-  return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true });
 }
 
 export async function DELETE(request: Request) {
-  const payload = (await request.json().catch(() => null)) as {
-    teamId?: number
-  } | null;
+    const payload = (await request.json().catch(() => null)) as {
+        teamId?: number;
+    } | null;
 
-  if (!payload) {
-    return NextResponse.json(
-      { error: "Invalid JSON payload" },
-      { status: 400 },
-    );
-  }
+    if (!payload) {
+        return NextResponse.json(
+            { error: "Invalid JSON payload" },
+            { status: 400 },
+        );
+    }
 
-  const { teamId } = payload;
+    const { teamId } = payload;
 
-  if (!teamId) {
-    return NextResponse.json(
-      { error: "Team ID is required" },
-      { status: 400 },
-    );
-  }
+    if (!teamId) {
+        return NextResponse.json(
+            { error: "Team ID is required" },
+            { status: 400 },
+        );
+    }
 
-  await deleteTeam(teamId);
+    await deleteTeam(teamId);
 
-  return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true });
 }

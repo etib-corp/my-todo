@@ -1,5 +1,4 @@
-import { NextResponse } from "next/server";
-
+import { NextRequest, NextResponse } from "next/server";
 import {
 	listProjects,
 	createProject,
@@ -14,14 +13,15 @@ import {
 	ProjectCreationParams,
 } from "@/lib/back/project";
 
-export async function GET(params: URLSearchParams) {
-	const idParam = params.get("id");
-	const nameParam = params.get("name");
-	const statusParam = params.get("status");
-	const membersParam = params.get("members");
-	const updatedAtParam = params.get("updatedAt");
+export async function GET(request: NextRequest) {
+	const searchParams = request.nextUrl.searchParams;
+	const idParam = searchParams.get("id");
+	const nameParam = searchParams.get("name");
+	const statusParam = searchParams.get("status");
+	const membersParam = searchParams.get("members");
+	const updatedAtParam = searchParams.get("updatedAt");
 
-	const searchParams: ProjectListingParams = {
+	const listingParams: ProjectListingParams = {
 		id: idParam ? parseInt(idParam) : undefined,
 		name: nameParam ?? undefined,
 		status: statusParam ?? undefined,
@@ -29,7 +29,7 @@ export async function GET(params: URLSearchParams) {
 		updatedAt: updatedAtParam ? new Date(updatedAtParam) : undefined,
 	};
 
-	const projects = await listProjects(searchParams);
+	const projects = await listProjects(listingParams);
 
 	return NextResponse.json({ projects });
 }

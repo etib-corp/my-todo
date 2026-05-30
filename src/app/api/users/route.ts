@@ -1,5 +1,4 @@
-import { NextResponse } from "next/server";
-
+import { NextRequest, NextResponse } from "next/server";
 import {
 	createUser,
 	deleteUser,
@@ -9,14 +8,15 @@ import {
 	UserCreationParams,
 } from "@/lib/back/user";
 
-export async function GET(params: URLSearchParams) {
-	const idParam = params.get("id");
-	const nameParam = params.get("name");
-	const statusParam = params.get("status");
-	const tasksParam = params.get("tasks");
-	const projectsParam = params.get("projects");
+export async function GET(request: NextRequest) {
+	const searchParams = request.nextUrl.searchParams;
+	const idParam = searchParams.get("id");
+	const nameParam = searchParams.get("name");
+	const statusParam = searchParams.get("status");
+	const tasksParam = searchParams.get("tasks");
+	const projectsParam = searchParams.get("projects");
 
-	const searchParams: UsersListingParams = {
+	const listingParams: UsersListingParams = {
 		id: idParam ? parseInt(idParam) : undefined,
 		name: nameParam ?? undefined,
 		status: statusParam ?? undefined,
@@ -24,7 +24,7 @@ export async function GET(params: URLSearchParams) {
 		projects: projectsParam ? projectsParam.split(",").map(Number) : undefined,
 	};
 
-	const users = await listUsers(searchParams);
+	const users = await listUsers(listingParams);
 
 	return NextResponse.json({ users });
 }
@@ -84,10 +84,7 @@ export async function PATCH(request: Request) {
 		);
 	}
 
-	const {
-		userId,
-		status,
-	} = payload;
+	const { userId, status } = payload;
 
 	if (!userId) {
 		return NextResponse.json(

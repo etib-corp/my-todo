@@ -46,3 +46,60 @@ export async function listProjects() {
         },
     });
 }
+
+export async function createProject(data: {
+    name: string;
+    status: string;
+    note: string;
+    memberIds?: number[];
+}) {
+    return prisma.project.create({
+        data: {
+            name: data.name,
+            status: data.status,
+            note: data.note,
+            members: data.memberIds?.length
+                ? { connect: data.memberIds.map((id) => ({ id })) }
+                : undefined,
+        },
+        select: {
+            id: true,
+            name: true,
+            status: true,
+            note: true,
+            createdAt: true,
+        },
+    });
+}
+
+export async function listUsers() {
+    return prisma.user.findMany({
+        select: {
+            id: true,
+            name: true,
+            email: true,
+            subTeam: true,
+            status: true,
+        },
+        orderBy: { id: "desc" },
+    });
+}
+
+export async function createUser(data: {
+    name: string;
+    email: string;
+    password: string;
+    subTeam: string;
+    status: string;
+}) {
+    return prisma.user.create({
+        data,
+        select: {
+            id: true,
+            name: true,
+            email: true,
+            subTeam: true,
+            status: true,
+        },
+    });
+}
