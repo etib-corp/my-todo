@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Button } from "@/components/ui/button"
 import { MessageSquareMore, Users, Video, CircleAlert, Plus } from "lucide-react"
 
 type User = {
@@ -84,10 +85,10 @@ export default function TeamPage() {
               </Badge>
               <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
-                  <button className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground shadow-sm hover:bg-primary/90">
-                    <Plus className="size-4" />
+                  <Button>
+                    <Plus className="mr-1 size-4" />
                     New member
-                  </button>
+                  </Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-md">
                   <DialogHeader>
@@ -148,13 +149,13 @@ export default function TeamPage() {
                         </SelectContent>
                       </Select>
                     </div>
-                    <button
-                      className="w-full rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm hover:bg-primary/90 disabled:opacity-50"
+                    <Button
+                      className="w-full"
                       onClick={handleCreate}
                       disabled={loading}
                     >
                       {loading ? "Adding…" : "Add member"}
-                    </button>
+                    </Button>
                   </div>
                 </DialogContent>
               </Dialog>
