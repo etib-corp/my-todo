@@ -28,8 +28,14 @@ Real-time collaborative dashboard for personal and team productivity.
     ```bash
     touch .env
     echo "DATABASE_URL=file:./dev.db" > .env
+    echo "ADMIN_PASSWORD=..." >> .env
+    echo "PASSWORD_SALT=..." >> .env
     npx prisma generate
+    npx prisma db push
+    npx prisma db seed
     ```
+
+
 
 4. Run the development server:
 
