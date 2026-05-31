@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import {
 	createTask,
@@ -13,7 +13,8 @@ import {
   TaskCreationParams
 } from "@/lib/back/task";
 
-export async function GET(params: URLSearchParams) {
+export async function GET(request: NextRequest) {
+  const params = request.nextUrl.searchParams;
   const idParam = params.get("id");
   const projectIdParam = params.get("projectId");
   const assignedToParam = params.get("assignedTo");

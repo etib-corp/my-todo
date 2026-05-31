@@ -180,6 +180,10 @@ export default function ProjectsPage() {
     }
   }
 
+  function redirectToProject(projectId: number) {
+    window.location.href = `/projects/${projectId}`
+  }
+
   return (
     <div className="@container/main flex flex-1 flex-col gap-6 px-4 py-4 md:gap-8 md:py-6 lg:px-6">
       <section className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
@@ -293,7 +297,7 @@ export default function ProjectsPage() {
           </CardHeader>
           <CardContent className="space-y-3">
             {projects.map((project) => (
-              <div key={project.id} className="rounded-2xl border bg-muted/20 p-4">
+              <div key={project.id} className="rounded-2xl border bg-muted/20 p-4 cursor-pointer" onClick={() => redirectToProject(project.id)}>
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
