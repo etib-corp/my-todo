@@ -1,13 +1,51 @@
+"use client"
+
 import Link from "next/link"
 
+import { useEffect, useState } from "react"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Sparkles } from "lucide-react"
 
-import { getOverviewData } from "@/lib/dashboard"
+import { useRouter } from "next/navigation"
 
-export default async function Page() {
-  const overview = await getOverviewData()
+export default function Page() {
+    const [overview, setOverview] = useState<{
+        totalUsers: number;
+        totalTasks: number;
+        completedTasks: number;
+        inboxCount: number;
+        recentTasks: { completed: boolean; id: number; title: string; details: string | null; status: string }[];
+    }>({
+        totalUsers: 0,
+        totalTasks: 0,
+        completedTasks: 0,
+        inboxCount: 0,
+        recentTasks: [],
+    });
+    const router = useRouter();
+
+    const redirectToTask = (taskId: number) => () => {
+        router.push(`/tasks/${taskId}`);
+    };
+
+    useEffect(() => {
+        async function fetchOverview() {
+            try {
+                const response = await fetch("/api/dashboard");
+                if (response.ok) {
+                    const data = await response.json();
+                    setOverview(data.overview);
+                } else {
+                    console.error("Failed to fetch overview:", response.status, response);
+                }
+            } catch (error) {
+                console.error("Error fetching overview:", error);
+            }
+        }
+
+        fetchOverview();
+    }, []);
 
   return (
     <div className="flex flex-1 flex-col bg-[radial-gradient(circle_at_top_left,rgba(16,185,129,0.12),transparent_34%),radial-gradient(circle_at_top_right,rgba(15,23,42,0.06),transparent_28%)]">
@@ -73,7 +111,8 @@ export default async function Page() {
                 }) => (
                   <div
                     key={task.id}
-                    className="flex items-center justify-between rounded-2xl border bg-muted/20 px-4 py-3"
+                    className="flex items-center justify-between rounded-2xl border bg-muted/20 px-4 py-3 cursor-pointer"
+                    onClick={redirectToTask(task.id)}
                   >
                     <div>
                       <p className="text-sm font-medium">{task.title}</p>
