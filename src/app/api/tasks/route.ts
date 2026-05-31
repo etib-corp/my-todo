@@ -10,7 +10,8 @@ import {
   deleteTask,
   addAssignedToTask,
   TasksListingParams,
-  TaskCreationParams
+  TaskCreationParams,
+  assignTaskToProject
 } from "@/lib/back/task";
 
 export async function GET(request: NextRequest) {
@@ -92,6 +93,7 @@ export async function POST(request: Request) {
 export async function PATCH(request: Request) {
   const payload = (await request.json().catch(() => null)) as {
     taskId?: number
+    projectId?: number
     status?: string
     note?: string
     dueDate?: Date
@@ -106,7 +108,7 @@ export async function PATCH(request: Request) {
     );
   }
 
-  const { taskId, status, note, dueDate, removeAssignedUserId, addAssignedUserId } = payload;
+  const { taskId, status, note, dueDate, removeAssignedUserId, addAssignedUserId, projectId } = payload;
 
   if (!taskId) {
     return NextResponse.json(
@@ -133,6 +135,10 @@ export async function PATCH(request: Request) {
 
   if (addAssignedUserId) {
     await addAssignedToTask(taskId, addAssignedUserId);
+  }
+
+  if (projectId) {
+    await assignTaskToProject(taskId, projectId);
   }
 
   return NextResponse.json({ success: true });

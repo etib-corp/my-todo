@@ -106,6 +106,17 @@ export async function addAssignedToTask(taskId: number, userId: number) {
   })
 }
 
+export async function assignTaskToProject(taskId: number, projectId: number) {
+  return prisma.task.update({
+    where: { id: taskId },
+    data: {
+      project: {
+        connect: { id: projectId },
+      },
+    },
+  })
+}
+
 export async function deleteTask(taskId: number) {
   return prisma.task.delete({
     where: { id: taskId },

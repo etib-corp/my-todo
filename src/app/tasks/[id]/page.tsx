@@ -121,7 +121,7 @@ export default function TaskPage() {
 
 		const details = taskDetails.trim();
 
-		const response = await fetch("/api/tasks", {
+		const responseTask = await fetch("/api/tasks", {
 			method: "PATCH",
 			headers: {
 				"Content-Type": "application/json",
@@ -133,8 +133,24 @@ export default function TaskPage() {
 			}),
 		});
 
-		if (!response.ok) {
+		if (!responseTask.ok) {
 			toast.error("Could not save the task");
+			return;
+		}
+
+		const responseProject = await fetch("/api/projects", {
+			method: "PATCH",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				projectId: project?.id,
+				taskId: task?.id,
+			}),
+		});
+
+		if (!responseProject.ok) {
+			toast.error("Could not update the project");
 			return;
 		}
 
