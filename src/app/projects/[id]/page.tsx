@@ -84,10 +84,10 @@ export default function ProjectPage() {
                 )
             );
 
-            fetch(`/api/tasks/${taskId}`, {
+            fetch(`/api/tasks`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ taskId, status: newStatus }),
+                body: JSON.stringify({ taskId, status: newStatus })
             }).then((response) => {
                 if (!response.ok) {
                     console.error("Failed to update task status:", response.status, response);
