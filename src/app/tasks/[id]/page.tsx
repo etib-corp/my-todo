@@ -27,6 +27,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 
 import { toast } from "sonner";
+import { Project } from "@/generated/prisma/browser";
 
 type Task = {
 	id: number;
@@ -51,6 +52,8 @@ export default function TaskPage() {
 	const statuses = ["not started", "in progress", "completed"];
 
 	const [taskDetails, setTaskDetails] = useState("");
+	const [project, setProject] = useState<Project | null>(null);
+	const [projects, setProjects] = useState<Project[]>([]);
 
 	useEffect(() => {
 		async function fetchTask() {
@@ -59,13 +62,47 @@ export default function TaskPage() {
 				if (response.ok) {
 					const data = await response.json();
 					setTask(data.tasks[0]);
-                    setTaskDetails(data.tasks[0].note);
+					setTaskDetails(data.tasks[0].note);
 				} else {
 					console.error("Failed to fetch task:", response.status, response);
 				}
 			} catch (error) {
 				console.error("Error fetching task:", error);
 			}
+		}
+
+		async function fetchProject() {
+			try {
+				const response = await fetch(`/api/projects?id=${task?.projectId}`);
+				if (response.ok) {
+					const data = await response.json();
+					setProject(data.projects[0]);
+				} else {
+					console.error("Failed to fetch project:", response.status, response);
+				}
+			} catch (error) {
+				console.error("Error fetching project:", error);
+			}
+		}
+
+		async function fetchProjects() {
+			try {
+				const response = await fetch(`/api/projects`);
+				if (response.ok) {
+					const data = await response.json();
+					setProjects(data.projects);
+				} else {
+					console.error("Failed to fetch projects:", response.status, response);
+				}
+			} catch (error) {
+				console.error("Error fetching projects:", error);
+			}
+		}
+
+		fetchProjects();
+
+		if (task?.projectId) {
+			fetchProject();
 		}
 		fetchTask();
 	}, [taskId]);
@@ -92,6 +129,7 @@ export default function TaskPage() {
 			body: JSON.stringify({
 				taskId: task?.id,
 				note: details,
+				projectId: project?.id,
 			}),
 		});
 
@@ -150,10 +188,9 @@ export default function TaskPage() {
 				</CardHeader>
 				<CardContent className="flex flex-col items-start gap-4">
 					<div className="text-sm text-muted-foreground">
+						<p>Project: {project?.name || "Loading..."}</p>
 						<p>Due: {new Date(task.dueDate).toLocaleDateString()}</p>
 						<p>Created: {new Date(task.createdAt).toLocaleDateString()}</p>
-						<p>Note:</p>
-						<p>{task.note}</p>
 						<Button
 							variant="outline"
 							size="sm"
@@ -197,14 +234,27 @@ export default function TaskPage() {
 								onChange={(event) => setTaskDetails(event.target.value)}
 							/>
 						</div>
-						<div className="grid gap-2 rounded-2xl border bg-muted/20 p-3 text-sm text-muted-foreground">
-							<span className="flex items-center gap-2 text-foreground">
-								<Clock3Icon className="size-4" />
-								Default to today
-							</span>
-							<span>
-								Use this for tasks that should land in the current workstream.
-							</span>
+						<div className="grid gap-2">
+							<Label htmlFor="project">Project</Label>
+							<Select
+								value={project?.name || ""}
+								onValueChange={(value) => {
+									const selectedProject =
+										projects.find((p) => p.name === value) || null;
+									setProject(selectedProject);
+								}}
+							>
+								<SelectTrigger>
+									<SelectValue placeholder="Select a project" />
+								</SelectTrigger>
+								<SelectContent>
+									{projects.map((project) => (
+										<SelectItem key={project.id} value={project.name}>
+											{project.name}
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
 						</div>
 						<DialogFooter>
 							<Button
