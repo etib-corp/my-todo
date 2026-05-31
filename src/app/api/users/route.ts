@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import bcrypt from "bcrypt";
 import {
 	createUser,
 	deleteUser,
@@ -65,7 +66,20 @@ export async function POST(request: Request) {
 			{ status: 400 },
 		);
 	}
+	if (!data.email) {
+		return NextResponse.json(
+			{ error: "User email is required" },
+			{ status: 400 },
+		);
+	}
+	if (!data.password) {
+		return NextResponse.json(
+			{ error: "User password is required" },
+			{ status: 400 },
+		);
+	}
 
+	data.password = await bcrypt.hash(data.password, process.env.PASSWORD_SALT!);
 	const user = await createUser(data);
 
 	return NextResponse.json({ user });
