@@ -84,11 +84,9 @@ export default function TeamPage() {
                 Team sync
               </Badge>
               <Dialog open={open} onOpenChange={setOpen}>
-                <DialogTrigger asChild>
-                  <Button>
-                    <Plus className="mr-1 size-4" />
-                    New member
-                  </Button>
+                <DialogTrigger className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90">
+                  <Plus className="size-4" />
+                  New member
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-md">
                   <DialogHeader>

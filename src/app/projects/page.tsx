@@ -77,9 +77,9 @@ export default function ProjectsPage() {
       const res = await fetch("/api/projects", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          ...form, 
-          memberIds: selectedMembers.map((m) => m.id) 
+        body: JSON.stringify({
+          ...form,
+          memberIds: selectedMembers.map((m) => m.id),
         }),
       })
       const newProject = await res.json()
@@ -100,19 +100,14 @@ export default function ProjectsPage() {
       const res = await fetch("/api/projects", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          projectId,
-          status: newStatus 
-        }),
+        body: JSON.stringify({ projectId, status: newStatus }),
       })
-      
       if (res.ok) {
-        // Update local state
-        setProjects(prev => prev.map(project => 
-          project.id === projectId 
-            ? { ...project, status: newStatus }
-            : project
-        ))
+        setProjects((prev) =>
+          prev.map((project) =>
+            project.id === projectId ? { ...project, status: newStatus } : project
+          )
+        )
       }
     } catch (error) {
       console.error("Error updating project status:", error)
@@ -127,19 +122,14 @@ export default function ProjectsPage() {
       const res = await fetch("/api/projects", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          projectId,
-          note: newNote 
-        }),
+        body: JSON.stringify({ projectId, note: newNote }),
       })
-      
       if (res.ok) {
-        // Update local state
-        setProjects(prev => prev.map(project => 
-          project.id === projectId 
-            ? { ...project, note: newNote }
-            : project
-        ))
+        setProjects((prev) =>
+          prev.map((project) =>
+            project.id === projectId ? { ...project, note: newNote } : project
+          )
+        )
         setEditOpen(false)
         setEditingProject(null)
       }
@@ -152,15 +142,13 @@ export default function ProjectsPage() {
 
   async function handleDeleteProject(projectId: number) {
     if (!confirm("Are you sure you want to delete this project?")) return
-    
     try {
       await fetch("/api/projects", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ projectId }),
       })
-      
-      setProjects(prev => prev.filter(p => p.id !== projectId))
+      setProjects((prev) => prev.filter((p) => p.id !== projectId))
     } catch (error) {
       console.error("Error deleting project:", error)
     }
@@ -168,41 +156,27 @@ export default function ProjectsPage() {
 
   function openEditDialog(project: Project) {
     setEditingProject(project)
-    setForm({
-      name: project.name,
-      status: project.status,
-      note: project.note || ""
-    })
+    setForm({ name: project.name, status: project.status, note: project.note || "" })
     setEditOpen(true)
   }
 
   function getStatusIcon(status: string) {
     switch (status) {
-      case "active":
-        return <PlayCircle className="size-4 text-green-600" />
-      case "blocked":
-        return <AlertCircle className="size-4 text-red-600" />
-      case "completed":
-        return <CheckCircle className="size-4 text-blue-600" />
-      case "archived":
-        return <Archive className="size-4 text-gray-600" />
-      default:
-        return null
+      case "active": return <PlayCircle className="size-4 text-green-600" />
+      case "blocked": return <AlertCircle className="size-4 text-red-600" />
+      case "completed": return <CheckCircle className="size-4 text-blue-600" />
+      case "archived": return <Archive className="size-4 text-gray-600" />
+      default: return null
     }
   }
 
   function getStatusColor(status: string) {
     switch (status) {
-      case "active":
-        return "bg-green-100 text-green-800 hover:bg-green-200"
-      case "blocked":
-        return "bg-red-100 text-red-800 hover:bg-red-200"
-      case "completed":
-        return "bg-blue-100 text-blue-800 hover:bg-blue-200"
-      case "archived":
-        return "bg-gray-100 text-gray-800 hover:bg-gray-200"
-      default:
-        return ""
+      case "active": return "bg-green-100 text-green-800 hover:bg-green-200"
+      case "blocked": return "bg-red-100 text-red-800 hover:bg-red-200"
+      case "completed": return "bg-blue-100 text-blue-800 hover:bg-blue-200"
+      case "archived": return "bg-gray-100 text-gray-800 hover:bg-gray-200"
+      default: return ""
     }
   }
 
@@ -216,11 +190,9 @@ export default function ProjectsPage() {
                 <FolderKanban className="mr-1 size-3.5" />Project board
               </Badge>
               <Dialog open={open} onOpenChange={setOpen}>
-                <DialogTrigger asChild>
-                  <Button>
-                    <Plus className="mr-1 size-4" />
-                    New project
-                  </Button>
+                <DialogTrigger className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90">
+                  <Plus className="size-4" />
+                  New project
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-md">
                   <DialogHeader>
@@ -236,7 +208,6 @@ export default function ProjectsPage() {
                         onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
                       />
                     </div>
-
                     <div className="space-y-1.5">
                       <Label htmlFor="status">Status</Label>
                       <Select
@@ -254,7 +225,6 @@ export default function ProjectsPage() {
                         </SelectContent>
                       </Select>
                     </div>
-
                     <div className="space-y-1.5">
                       <Label htmlFor="note">Note</Label>
                       <Textarea
@@ -265,7 +235,6 @@ export default function ProjectsPage() {
                         onChange={(e) => setForm((f) => ({ ...f, note: e.target.value }))}
                       />
                     </div>
-
                     <div className="space-y-1.5">
                       <Label>Assign members</Label>
                       {selectedMembers.length > 0 && (
@@ -308,12 +277,7 @@ export default function ProjectsPage() {
                         })}
                       </div>
                     </div>
-
-                    <Button
-                      className="w-full"
-                      onClick={handleCreate}
-                      disabled={loading}
-                    >
+                    <Button className="w-full" onClick={handleCreate} disabled={loading}>
                       {loading ? "Creating…" : "Create project"}
                     </Button>
                   </div>
@@ -341,11 +305,9 @@ export default function ProjectsPage() {
                         </span>
                       </Badge>
                     </div>
-                    
                     {project.note && (
                       <p className="text-sm text-muted-foreground mb-3">{project.note}</p>
                     )}
-                    
                     {project.members && project.members.length > 0 && (
                       <div className="flex flex-wrap gap-1 mb-3">
                         {project.members.map((member) => (
@@ -356,7 +318,6 @@ export default function ProjectsPage() {
                       </div>
                     )}
                   </div>
-                  
                   <div className="flex items-center gap-2">
                     <Select
                       value={project.status}
@@ -368,39 +329,29 @@ export default function ProjectsPage() {
                       <SelectContent>
                         <SelectItem value="active">
                           <span className="flex items-center gap-2">
-                            <PlayCircle className="size-4 text-green-600" />
-                            Active
+                            <PlayCircle className="size-4 text-green-600" />Active
                           </span>
                         </SelectItem>
                         <SelectItem value="blocked">
                           <span className="flex items-center gap-2">
-                            <AlertCircle className="size-4 text-red-600" />
-                            Blocked
+                            <AlertCircle className="size-4 text-red-600" />Blocked
                           </span>
                         </SelectItem>
                         <SelectItem value="completed">
                           <span className="flex items-center gap-2">
-                            <CheckCircle className="size-4 text-blue-600" />
-                            Completed
+                            <CheckCircle className="size-4 text-blue-600" />Completed
                           </span>
                         </SelectItem>
                         <SelectItem value="archived">
                           <span className="flex items-center gap-2">
-                            <Archive className="size-4 text-gray-600" />
-                            Archived
+                            <Archive className="size-4 text-gray-600" />Archived
                           </span>
                         </SelectItem>
                       </SelectContent>
                     </Select>
-                    
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => openEditDialog(project)}
-                    >
+                    <Button variant="ghost" size="sm" onClick={() => openEditDialog(project)}>
                       <Edit2 className="size-4" />
                     </Button>
-                    
                     <Button
                       variant="ghost"
                       size="sm"
@@ -473,7 +424,6 @@ export default function ProjectsPage() {
         ))}
       </section>
 
-      {/* Edit Dialog */}
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
@@ -489,7 +439,6 @@ export default function ProjectsPage() {
                   onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
                 />
               </div>
-
               <div className="space-y-1.5">
                 <Label htmlFor="edit-status">Status</Label>
                 <Select
@@ -507,7 +456,6 @@ export default function ProjectsPage() {
                   </SelectContent>
                 </Select>
               </div>
-
               <div className="space-y-1.5">
                 <Label htmlFor="edit-note">Note</Label>
                 <Textarea
@@ -517,7 +465,6 @@ export default function ProjectsPage() {
                   onChange={(e) => setForm((f) => ({ ...f, note: e.target.value }))}
                 />
               </div>
-
               <div className="flex gap-2">
                 <Button
                   className="flex-1"
@@ -526,11 +473,7 @@ export default function ProjectsPage() {
                 >
                   {loading ? "Saving..." : "Save Changes"}
                 </Button>
-                <Button
-                  variant="outline"
-                  className="flex-1"
-                  onClick={() => setEditOpen(false)}
-                >
+                <Button variant="outline" className="flex-1" onClick={() => setEditOpen(false)}>
                   Cancel
                 </Button>
               </div>
