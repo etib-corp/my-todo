@@ -11,7 +11,7 @@ async function main() {
             data: {
                 name: "admin",
                 email: "admin",
-                password: await bcrypt.hash(process.env.ADMIN_PASSWORD!, process.env.PASSWORD_SALT!),
+                password: await bcrypt.hash(process.env.ADMIN_PASSWORD!, process.env.PASSWORD_SALT!.replaceAll("\\$", "$")),
                 subTeam: "Admin",
                 status: "active",
             },

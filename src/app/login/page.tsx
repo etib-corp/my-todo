@@ -6,19 +6,19 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
 export default function LoginPage() {
-  const [form, setForm] = useState({ email: "", password: "" })
+  const [form, setForm] = useState({ name: "", password: "" })
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
 
   async function handleLogin() {
-    if (!form.email.trim() || !form.password.trim()) return
+    if (!form.name.trim() || !form.password.trim()) return
     setLoading(true)
     setError("")
     try {
       const res = await fetch("/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: form.email, password: form.password }),
+        body: JSON.stringify({ name: form.name, password: form.password }),
       })
       if (res.ok) {
         window.location.href = "/"
@@ -40,12 +40,12 @@ export default function LoginPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-1.5">
-            <Label htmlFor="email">Username</Label>
+            <Label htmlFor="name">Username</Label>
             <Input
-              id="email"
+              id="name"
               placeholder="admin"
-              value={form.email}
-              onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+              value={form.name}
+              onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
               onKeyDown={(e) => e.key === "Enter" && handleLogin()}
             />
           </div>

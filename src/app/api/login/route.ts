@@ -4,17 +4,12 @@ import { cookies } from "next/headers"
 import bcrypt from "bcrypt";
 
 export async function POST(req: Request) {
-    const { email, password } = await req.json()
-
-    console.log("Login attempt:", { email, password });
-    console.log("Environment variables:", {
-        PASSWORD_SALT: process.env.PASSWORD_SALT,
-    });
+    const { name, password } = await req.json()
 
     const hashedPassword = await bcrypt.hash(password, process.env.PASSWORD_SALT!);
 
     const user = await prisma.user.findFirst({
-        where: { email, password: hashedPassword },
+        where: { name: name, password: hashedPassword },
     })
 
     if (!user) {
